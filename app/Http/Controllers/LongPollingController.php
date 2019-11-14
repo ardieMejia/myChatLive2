@@ -103,8 +103,8 @@ class LongPollingController extends Controller
 
             $user = rand(0,10000000);
             // send to the browser
-            // setcookie('user', $user);
-            $cookie=cookie('user',$user,5);
+
+            $cookie=cookie('user',$user,500); //REMOVE
 
 
             //REMOVE
@@ -141,6 +141,7 @@ class LongPollingController extends Controller
             $result = DB::table('messages')
                     ->leftJoin('users', 'users.last_sent_id', '=', 'messages.user_id')
                     ->select('users.username','messages.message','messages.created_at as time')
+                    ->orderBy('messages.id')
                     ->get();
 
 
@@ -164,15 +165,16 @@ class LongPollingController extends Controller
     {
         //
 
+
         if(empty($request->messagesInput)){
             $request->messagesInput='No Message';
         }
-
 
         $messageNew = new Message;
         $messageNew->user_id=$request->cookie('user');
         $messageNew->message=$request->messagesInput;
         $messageNew->save();
+        return back()->withInput(['username' => $request->username]);
 
     }
 

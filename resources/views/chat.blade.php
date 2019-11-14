@@ -70,16 +70,19 @@
 					                  } */
 
                          var jsonMessages = JSON.parse(this.responseText);
-                         console.log(jsonMessages);
+
+
 
                          var messagesFeed = $('#messagesFeed');
+
+                         var elementRows = '<tr><th>username</th><th>message</th><th>time sent</th></tr>';
                          jsonMessages.forEach(function (item){
                              // messagesFeed.append('<br>'+'username'+'--'+item.message+'--'+'time');
                              var elementNew = '<tr><td>'+item.username+'</td><td>'+item.message+'</td><td>'+item.time+'</td></tr>';
-                             messagesFeed.append(elementNew);
+                             elementRows = elementRows + elementNew;
 
-                             console.log(item);
                          })
+                         messagesFeed.html(elementRows);
 
 
                          /* $('#messagesFeed').append('<br>'); */
