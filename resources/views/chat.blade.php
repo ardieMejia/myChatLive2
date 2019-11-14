@@ -27,13 +27,9 @@
                         </div>
                         <div class="form-group">
                             <table id="messagesFeed" class="table table-bordered">
-                                <tr>
-                                    <td>ardie</td>
-                                    <td>some message</td>
-                                    <td>time</td>
-                                </tr>
+
                             </table>
-                            <!-- <label id="messagesFeed">messages</label> -->
+
                         </div>
                         <div class="form-group">
                             <input type="submit" value="send message" />
@@ -54,22 +50,10 @@
 		         ajax.onreadystatechange = function() {
 			           if (this.readyState === 4 && this.status === 200) {
 				             if (this.status === 200) {
-                         //REMOVE
-					               /* try {
-						                var json = JSON.parse(this.responseText);
-					                  } catch {
-						                poll();
-                          *     return;
-					                  } */
-                         // console.log(this.responseText);
-                         // console.log("200");
 
-
-					               /* if (json.status !== true) {
-						                alert(json.error);return;
-					                  } */
 
                          var jsonMessages = JSON.parse(this.responseText);
+                         console.log(this.responseText);
 
 
 
@@ -77,7 +61,7 @@
 
                          var elementRows = '<tr><th>username</th><th>message</th><th>time sent</th></tr>';
                          jsonMessages.forEach(function (item){
-                             // messagesFeed.append('<br>'+'username'+'--'+item.message+'--'+'time');
+
                              var elementNew = '<tr><td>'+item.username+'</td><td>'+item.message+'</td><td>'+item.time+'</td></tr>';
                              elementRows = elementRows + elementNew;
 
@@ -85,12 +69,6 @@
                          messagesFeed.html(elementRows);
 
 
-                         /* $('#messagesFeed').append('<br>'); */
-
-
-					               /* var div = document.createElement("DIV");
-					                  document.body.appendChild(div);
-					                  div.innerHTML = 'time: '   json.time   ', content: '   json.content;*/
 					               poll(); 
 				             } else {
 					               poll();

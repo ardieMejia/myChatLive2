@@ -92,7 +92,7 @@ class LongPollingController extends Controller
 
 
 
-        //REMOVE
+
         session_write_close();
         ignore_user_abort(false);
         set_time_limit(1);
@@ -117,27 +117,27 @@ class LongPollingController extends Controller
             $userNew->username = $request->username;
             $userNew->last_sent_id = $user;
             $userNew->save();
-            return response('success')->cookie($cookie);
-            //REMOVE
+            return response([
+                [
+                    'message' => 'No Message',
+                    'username' => '',
+                    'time' => '',
+                ]
+            ])->cookie($cookie);
+
             // first request does not do anything than creating the cookie
 
         }
 
-        // TODO: put inside while(true), maybe
+
         $flagUpdate = DB::table('users')
                     ->where('username',$request->username)
                     ->update(['last_sent_id' => $request->cookie('user')]);
 
         while(true){
 
-            sleep(2); // to lighten the infinite loop
+            sleep(1); 
 
-            // $result = DB::table('users as u')
-            //         ->join('messages', 'u.last_sent_id', '=', 'messages.user_id')
-            //         ->get();
-            // $result = DB::table('messages as m')
-            //     ->join('users', 'users.last_sent_id', '=', 'm.user_id')
-            //     ->get(); // this works SUCCESS
             $result = DB::table('messages')
                     ->leftJoin('users', 'users.last_sent_id', '=', 'messages.user_id')
                     ->select('users.username','messages.message','messages.created_at as time')
@@ -157,14 +157,12 @@ class LongPollingController extends Controller
             return $result;
 
         }
-        // REMOVE
-        return "huh ? it works";
+
     }
 
     public function messages(Request $request)
     {
         //
-
 
         if(empty($request->messagesInput)){
             $request->messagesInput='No Message';
