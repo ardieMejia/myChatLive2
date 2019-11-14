@@ -10,35 +10,40 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
-        
-
     </head>
     <body>
         <div class="container">
 
 
             <div class="row">
-                <form action="messageUpdateTable" method="get">
-                    <div class="form-group">
-                        <label class="label" id="messagesID">Username: {{$username}}</label>
-                    </div>
-                    <div class="form-group">
-                        <h5>Messages</h5>
-                        <textarea id="messagesInput" name="messagesInput"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label id="messagesFeed">messages</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="send message" />
-                    </div>
-                  
-                    
+                <div class="col-12">
+                    <form action="messageUpdateTable" method="get">
+                        <div class="form-group">
+                            <label class="label" id="messagesID">Username: {{$username}}</label>
+                        </div>
+                        <div class="form-group">
+                            <h5>Messages</h5>
+                            <textarea id="messagesInput" name="messagesInput"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <table id="messagesFeed" class="table table-bordered">
+                                <tr>
+                                    <td>ardie</td>
+                                    <td>some message</td>
+                                    <td>time</td>
+                                </tr>
+                            </table>
+                            <!-- <label id="messagesFeed">messages</label> -->
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="send message" />
+                        </div>
 
-                </form>
+
+                    </form>
+                </div>
 
             </div>
-
 
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script> 
@@ -65,9 +70,15 @@
 					                  } */
 
                          var jsonMessages = JSON.parse(this.responseText);
-                         // console.log(jsonMessages[0].message);
+                         console.log(jsonMessages);
+
+                         var messagesFeed = $('#messagesFeed');
                          jsonMessages.forEach(function (item){
-                             $('#messagesFeed').append('<br>'+item.message);
+                             // messagesFeed.append('<br>'+'username'+'--'+item.message+'--'+'time');
+                             var elementNew = '<tr><td>'+item.username+'</td><td>'+item.message+'</td><td>'+item.time+'</td></tr>';
+                             messagesFeed.append(elementNew);
+
+                             console.log(item);
                          })
 
 
@@ -77,7 +88,7 @@
 					               /* var div = document.createElement("DIV");
 					                  document.body.appendChild(div);
 					                  div.innerHTML = 'time: '   json.time   ', content: '   json.content;*/
-					                  poll(); 
+					               poll(); 
 				             } else {
 					               poll();
                          console.log("else");
